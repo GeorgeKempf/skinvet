@@ -1,0 +1,118 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: 'Ruda', sans-serif;
+    background-color: #f5f1ef;
+    color: #3a1212;
+}
+
+header {
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 10;
+    height: 160px;
+}
+
+.navbar {
+    max-width: 1200px;
+    height: 100%;
+    margin: auto;
+    padding: 0 80px 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    width: 150px;
+    height: auto;
+}
+
+.menu {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #3a1212;
+    font-weight: 700;
+}
+
+.menu a:hover {
+    color: #5a1f1f;
+}
+
+.menu-btn {
+    background-color: #5a1f1f;
+    color: white !important;
+    padding: 8px 14px;
+    border-radius: 8px;
+}
+
+.menu-btn:hover {
+    background-color: #3a1212;
+}
+
+.section {
+    min-height: 100vh;
+    padding: 175px 40px 40px;
+    scroll-margin-top: 160px;
+}
+
+.hero {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: -80px;
+}
+
+.logo2 {
+    width: 400px;
+    height: auto;
+    margin: 0 auto 20px;
+}
+
+.hero p {
+    font-size: 20px;
+}
+
+.botoes nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.botao {
+    background-color: #5a1f1f;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.botao:hover {
+    background-color: #3a1212;
+}
+
+h1,
+h2 {
+    font-weight: 700;
+}
+
+p,
+a,
+input,
+button {
+    font-family: 'Ruda', sans-serif;
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/meu-pet.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ruda:wght@400;700&display=swap" rel="stylesheet">
+    <title>Meu Pet - SkinVet</title>
+</head>
+<body>
+
+<header class="topbar">
+<a href="../index.html" class="btn-voltar">
+    <img src="../imagens/voltar.png" alt="Voltar">
+</a>
+
+    <a href="../index.html">
+        <img src="../imagens/logo.png" alt="Logo SkinVet" class="logo-topo">
+    </a>
+</header>
+
+<main class="pet-container">
+   <section class="pet-card">
+    <h1>Meus Pets</h1>
+    <p>Selecione um pet para ver o cadastro completo.</p>
+
+    <div class="lista-pets">
+        <a href="#" class="pet-item">
+            
+            <span class="pet-nome">Mel</span>
+            <span class="pet-tipo">🐶 Cachorro</span>
+            <span class="pet-status">Acompanhamento</span>
+        </a>
+
+        <a href="#" class="pet-item">
+            <span class="pet-nome">Luna</span>
+            <span class="pet-tipo">🐱 Gato</span>
+            <span class="pet-status">Acompanhamento</span>
+        </a>
+    </div>
+
+    <div class="acoes-pet">
+    <a href="#" class="btn-adicionar">Adicionar pet</a>
+    <button class="btn-remover-geral" type="button">Remover pet</button>
+</div>
+
+    <div class="pre-cadastro">
+        <h2>Pré-cadastro do pet</h2>
+
+        <form>
+            <label for="nome-pet">Nome do pet</label>
+            <input type="text" id="nome-pet" placeholder="Ex: Mel">
+
+            <label>Tipo de animal</label>
+
+            <div class="tipo-animal">
+                <label>
+                    <input type="radio" name="tipo-pet" value="cachorro">
+                    🐶 Cachorro
+                </label>
+
+                <label>
+                    <input type="radio" name="tipo-pet" value="gato">
+                    🐱 Gato
+                </label>
+            </div>
+
+            <button type="submit">Salvar pet</button>
+        </form>
+    </div>
+</section>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,163 @@
+body {
+    margin: 0;
+    font-family: 'Ruda', sans-serif;
+    background-color: #f5f1ef;
+    color: #3a1212;
+}
+
+.topbar {
+    height: 120px;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-topo {
+    width: 120px;
+    height: auto;
+}
+
+.btn-voltar {
+    position: absolute;
+    left: 150px;
+    top: -15px;
+    z-index: 1000;
+}
+
+.btn-voltar img {
+    width: 180px;
+    max-width: none;
+    height: auto;
+    display: block;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.btn-voltar img:hover {
+    transform: scale(1.05);
+}
+
+.pet-container {
+    min-height: calc(100vh - 120px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.pet-card {
+    background-color: white;
+    padding: 40px;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 420px;
+}
+
+.pet-card h1 {
+    margin-bottom: 10px;
+    color: #5a1f1f;
+}
+
+.pet-card p {
+    margin-bottom: 30px;
+}
+
+.lista-pets {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 25px 0;
+}
+
+.pet-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.3fr;
+    gap: 10px;
+    align-items: center;
+    text-decoration: none;
+    color: #3a1212;
+    background-color: #f5f1ef;
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.pet-item:hover {
+    background-color: #eadedb;
+}
+
+.pet-status {
+    color: #5a1f1f;
+    font-size: 14px;
+}
+
+.acoes-pet {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.btn-adicionar,
+.btn-remover-geral,
+.pre-cadastro button {
+    display: inline-block;
+    text-decoration: none;
+    background-color: #5a1f1f;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-weight: 700;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Ruda', sans-serif;
+}
+
+.btn-adicionar:hover,
+.btn-remover-geral:hover,
+.pre-cadastro button:hover {
+    background-color: #3a1212;
+}
+
+.pre-cadastro {
+    margin-top: 20px;
+    border-top: 1px solid #eadedb;
+    padding-top: 20px;
+    text-align: left;
+}
+
+.pre-cadastro h2 {
+    text-align: center;
+    color: #5a1f1f;
+}
+
+.pre-cadastro form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pre-cadastro input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: 'Ruda', sans-serif;
+}
+
+.tipo-animal {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.tipo-animal label {
+    background-color: #f5f1ef;
+    padding: 10px 14px;
+    border-radius: 8px;
+}

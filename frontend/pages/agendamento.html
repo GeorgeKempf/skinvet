@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/agendamento.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ruda:wght@400;700&display=swap" rel="stylesheet">
+    <title>Agendamento - SkinVet</title>
+</head>
+<body>
+
+<header class="topbar">
+    <a href="../index.html" class="btn-voltar">
+    <img src="../imagens/voltar.png" alt="Voltar">
+</a>
+
+    <a href="../index.html">
+        <img src="../imagens/logo.png" alt="Logo SkinVet" class="logo-topo">
+    </a>
+</header>
+
+<main class="agenda-container">
+    <section class="agenda-card">
+        <h1>Agendar consulta</h1>
+        <p>Preencha os dados abaixo para solicitar um horário.</p>
+
+<div class="pet-tipo-container">
+        <label>Agendamento para um:</label>
+
+    <div class="pet-tipo">
+        <label class="tipo-opcao">
+            <input type="radio" name="tipo" value="cao" required>
+            🐶 Cachorro
+        </label>
+
+        <label class="tipo-opcao">
+            <input type="radio" name="tipo" value="gato">
+            🐱 Gato
+        </label>
+    </div>
+</div>
+
+        <form class="agenda-form">
+            <label for="nome">Nome do tutor</label>
+            <input type="text" id="nome" required>
+
+            <label for="pet">Nome do pet</label>
+            <input type="text" id="pet" required>
+
+            <label for="telefone">Telefone</label>
+            <input type="text" id="telefone" required>
+
+            <label for="data">Data desejada</label>
+            <input type="date" id="data" required>
+
+            <label for="horario">Horário desejado</label>
+            <input type="time" id="horario" required>
+
+            <label for="mensagem">Observação</label>
+            <textarea id="mensagem" rows="4" placeholder="Descreva brevemente o motivo da consulta"></textarea>
+
+            <button type="submit">Solicitar agendamento</button>
+        </form>
+    </section>
+</main>
+
+</body>
+</html>

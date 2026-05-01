@@ -29,29 +29,30 @@ function updateNav() {
             <a href="#" class="logout-btn">Sair</a>
         </div>
     `;
+
     signupMenu.style.display = 'none';
 
-    const logoutBtn = userMenu.querySelector('.logout-btn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', (event) => {
-            event.preventDefault();
-            clearCurrentUser();
-            window.location.href = '/';
-        });
-    }
-
     const userBtn = userMenu.querySelector('.user-btn');
-    if (userBtn) {
-        userBtn.addEventListener('click', (event) => {
-            event.preventDefault();
-            const dropdown = userMenu.querySelector('.user-dropdown');
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-        });
-    }
-}
+    const dropdown = userMenu.querySelector('.user-dropdown');
+    const logoutBtn = userMenu.querySelector('.logout-btn');
 
-if (userMenu && signupMenu) {
-    updateNav();
+    userBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        dropdown.classList.toggle('active');
+    });
+
+    dropdown.addEventListener('click', (event) => {
+        event.stopPropagation();
+    });
+
+    logoutBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        clearCurrentUser();
+        window.location.href = '/';
+    });
 }
 
 if (cadastroForm) {
@@ -64,7 +65,7 @@ if (cadastroForm) {
         const senha = document.getElementById('senha').value.trim();
 
         try {
-            const resposta = await fetch('http://localhost:3001/cadastro', {
+            const resposta = await fetch('/cadastro', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -72,21 +73,13 @@ if (cadastroForm) {
                 body: JSON.stringify({ nome, email, cpf, senha })
             });
 
-            const text = await resposta.text();
-            let dados;
-            try {
-                dados = JSON.parse(text);
-            } catch {
-                dados = null;
-            }
-
-            if (!resposta.ok) {
-                alert((dados && dados.mensagem) ? dados.mensagem : `Erro ${resposta.status}: ${resposta.statusText}`);
-                return;
-            }
+            const dados = await resposta.json();
 
             alert(dados.mensagem);
-            window.location.href = 'login.html';
+
+            if (resposta.ok) {
+                window.location.href = 'login.html';
+            }
         } catch (error) {
             console.error(error);
             alert('Erro de conexão com o servidor');
@@ -102,7 +95,7 @@ if (loginForm) {
         const senha = document.getElementById('loginSenha').value.trim();
 
         try {
-            const resposta = await fetch('http://localhost:3001/login', {
+            const resposta = await fetch('/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -110,22 +103,14 @@ if (loginForm) {
                 body: JSON.stringify({ email, senha })
             });
 
-            const text = await resposta.text();
-            let dados;
-            try {
-                dados = JSON.parse(text);
-            } catch {
-                dados = null;
-            }
+            const dados = await resposta.json();
 
-            if (!resposta.ok) {
-                alert((dados && dados.mensagem) ? dados.mensagem : `Erro ${resposta.status}: ${resposta.statusText}`);
-                return;
-            }
-
-            setCurrentUser(dados.usuario);
             alert(dados.mensagem);
-            window.location.href = '../index.html';
+
+            if (resposta.ok) {
+                setCurrentUser(dados.usuario);
+                window.location.href = '../index.html';
+            }
         } catch (error) {
             console.error(error);
             alert('Erro de conexão com o servidor');
@@ -133,7 +118,16 @@ if (loginForm) {
     });
 }
 
-const currentUser = getCurrentUser();
-if (currentUser && !cadastroForm && !loginForm && userMenu && signupMenu) {
+if (userMenu && signupMenu) {
     updateNav();
 }
+
+document.addEventListener('click', () => {
+    if (!userMenu) return;
+
+    const dropdown = userMenu.querySelector('.user-dropdown');
+
+    if (dropdown) {
+        dropdown.classList.remove('active');
+    }
+});

@@ -66,45 +66,53 @@ header {
     background-color: #3a1212;
 }
 
-.user-btn {
+#userMenu {
     position: relative;
 }
 
-.user-dropdown {
-    display: none;
-    position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
-    background-color: #5a1f1f;
-    border-radius: 12px;
-    min-width: 140px;
-    box-shadow: 0 12px 24px rgba(0,0,0,0.18);
-    z-index: 1000;
-    margin-top: 5px;
-}
-
-.user-dropdown a {
-    display: block;
-    padding: 12px 16px;
-    color: #ffffff !important;
-    text-decoration: none;
-    text-align: left;
-    border-radius: 8px;
-}
-
 .user-btn {
-    position: relative;
     cursor: pointer;
 }
 
+.user-dropdown {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    padding: 8px;
+    min-width: 120px;
+    z-index: 999;
+
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+
+    transition: all 0.25s ease;
+}
+
+.user-dropdown.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
 .logout-btn {
+    display: block;
+    padding: 10px 14px;
     border-radius: 8px;
+    background-color: #f5f1ef;
+    color: #5a1f1f !important;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 700;
 }
 
 .logout-btn:hover {
-    background-color: rgba(255,255,255,0.12) !important;
+    background-color: #5a1f1f;
+    color: white !important;
 }
-
 
 .section {
     min-height: 100vh;

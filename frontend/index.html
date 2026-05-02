@@ -37,7 +37,36 @@
 <main>
 
     <section id="home" class="section hero">
-        <img src="imagens/logo.png" alt="Logo SkinVet" class="logo2">
+
+        <!-- Carrossel de Imagens -->
+        <div class="carousel-container">
+            <div class="carousel">
+                <div class="carousel-item active">
+                    <img src="imagens/michele.png" alt="michele-home-page" class="michele-home-page">
+                </div>
+                <div class="carousel-item">
+                    <img src="imagens/cachorro-enfaixado.png" alt="cachorro-enfaixado" class="cachorro-enfaixado">
+                </div>
+                <div class="carousel-item">
+                    <img src="imagens/batimentos-gato.png" alt="batimentos-gato" class="batimentos-gato">
+                </div>
+                <div class="carousel-item">
+                    <img src="imagens/cachorro-tratado.png" alt="cachorro-tratado" class="cachorro-tratado">
+                </div>
+            </div>
+
+            <!-- Botões de navegação -->
+            <button class="carousel-btn prev" onclick="changeSlide(-1)">❮</button>
+            <button class="carousel-btn next" onclick="changeSlide(1)">❯</button>
+
+            <!-- Indicadores de ponto -->
+            <div class="carousel-dots">
+                <span class="dot active" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+                <span class="dot" onclick="currentSlide(4)"></span>
+            </div>
+        </div>
 
         <p>Dermatologia veterinária com cuidado, carinho e atenção para a pele do seu pet.</p>
 
@@ -75,6 +104,7 @@
 </main>
 
 <script src="js/auth.js"></script>
+<script src="js/carousel.js"></script>
 
 </body>
 </html>

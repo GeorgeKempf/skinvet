@@ -30,19 +30,19 @@ app.post("/cadastro", async (req, res) => {
     }
 
     try {
-        const [usuarioExiste] = await db.query(
-            "SELECT id FROM usuarios WHERE email = ?",
+        const usuarioExiste = await db.query(
+            "SELECT id FROM usuarios WHERE email = $1",
             [email.toLowerCase()]
         );
 
-        if (usuarioExiste.length > 0) {
+        if (usuarioExiste.rows.length > 0) {
             return res.status(400).json({ mensagem: "Email já cadastrado" });
         }
 
         const senhaCriptografada = await bcrypt.hash(senha, 10);
 
         await db.query(
-            "INSERT INTO usuarios (nome, email, cpf, senha) VALUES (?, ?, ?, ?)",
+            "INSERT INTO usuarios (nome, email, cpf, senha) VALUES ($1, $2, $3, $4)",
             [nome, email.toLowerCase(), cpf, senhaCriptografada]
         );
 
@@ -64,16 +64,16 @@ app.post("/login", async (req, res) => {
     }
 
     try {
-        const [usuarios] = await db.query(
-            "SELECT * FROM usuarios WHERE email = ?",
+        const usuarios = await db.query(
+            "SELECT * FROM usuarios WHERE email = $1",
             [email.toLowerCase()]
         );
 
-        if (usuarios.length === 0) {
+        if (usuarios.rows.length === 0) {
             return res.status(401).json({ mensagem: "Email ou senha incorretos" });
         }
 
-        const usuario = usuarios[0];
+        const usuario = usuarios.rows[0];
 
         const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
 

@@ -249,6 +249,11 @@ header {
     background-color: #3a1212;
 }
 
+.container {
+    padding: 0px 400px;
+    text-align: left;
+}
+
 h1,
 h2 {
     font-weight: 700;

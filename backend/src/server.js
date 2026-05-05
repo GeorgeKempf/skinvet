@@ -146,6 +146,66 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(frontendPath, "index.html"));
 });
 
+app.delete("/pets/:pet_id", async (req, res) => {
+    const { pet_id } = req.params;
+    const { motivoExclusao } = req.body;
+
+    try {
+        await db.query(
+            `UPDATE pets 
+             SET ativo = false, 
+                 motivo_exclusao = $1, 
+                 data_exclusao = NOW()
+             WHERE id = $2`,
+            [motivoExclusao, pet_id]
+        );
+
+        return res.json({ mensagem: "Pet removido com sucesso" });
+
+    } catch (erro) {
+        console.error("ERRO AO REMOVER PET:", erro);
+        return res.status(500).json({ mensagem: "Erro ao remover pet" });
+    }
+});
+
 app.listen(port, () => {
     console.log(`SkinVet API rodando em http://localhost:${port}`);
+});
+
+// CADASTRAR PET
+app.post("/pets", async (req, res) => {
+    const { nome, especie, raca, idade, peso, usuario_id } = req.body;
+
+    try {
+        await db.query(
+            `INSERT INTO pets (nome, especie, raca, idade, peso, usuario_id)
+             VALUES ($1, $2, $3, $4, $5, $6)`,
+            [nome, especie, raca, idade, peso, usuario_id]
+        );
+
+        return res.json({ mensagem: "Pet cadastrado com sucesso" });
+
+    } catch (erro) {
+        console.error(erro);
+        return res.status(500).json({ mensagem: "Erro ao cadastrar pet" });
+    }
+});
+
+
+// LISTAR PETS DO USUÁRIO
+app.get("/pets/:usuario_id", async (req, res) => {
+    const { usuario_id } = req.params;
+
+    try {
+        const pets = await db.query(
+            "SELECT * FROM pets WHERE usuario_id = $1",
+            [usuario_id]
+        );
+
+        return res.json(pets.rows);
+
+    } catch (erro) {
+        console.error(erro);
+        return res.status(500).json({ mensagem: "Erro ao buscar pets" });
+    }
 });

@@ -32,6 +32,7 @@ header {
 .logo {
     width: 150px;
     height: auto;
+    margin-top: 5px;
 }
 
 .menu {
@@ -260,8 +261,56 @@ h2 {
 }
 
 p,
-a,
+a, 
 input,
 button {
     font-family: 'Ruda', sans-serif;
+}
+
+#userMenu {
+    position: relative;
+}
+
+.user-btn {
+    cursor: pointer;
+}
+
+.user-dropdown {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    padding: 8px;
+    min-width: 120px;
+    z-index: 999;
+
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+
+    transition: all 0.25s ease;
+}
+
+.user-dropdown.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.logout-btn {
+    display: block;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background-color: #f5f1ef;
+    color: #5a1f1f !important;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.logout-btn:hover {
+    background-color: #5a1f1f;
+    color: white !important;
 }

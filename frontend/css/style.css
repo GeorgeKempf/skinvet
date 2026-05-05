@@ -5,41 +5,6 @@ body {
     color: #3a1212;
 }
 
-.topbar {
-    height: 120px;
-    background-color: white;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.logo-topo {
-    width: 120px;
-    height: auto;
-}
-
-.btn-voltar {
-    position: absolute;
-    left: 150px;
-    top: -15px;
-    z-index: 1000;
-}
-
-.btn-voltar img {
-    width: 180px;
-    max-width: none;
-    height: auto;
-    display: block;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.btn-voltar img:hover {
-    transform: scale(1.05);
-}
-
 .auth-container {
     min-height: calc(100vh - 120px);
     display: flex;
@@ -102,4 +67,109 @@ body {
 
 .link:hover {
     text-decoration: underline;
+}
+
+header {
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 10;
+    height: 160px;
+}
+
+.navbar {
+    max-width: 1200px;
+    height: 100%;
+    margin: auto;
+    padding: 0 80px 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    width: 150px;
+    height: auto;
+    display: block;
+}
+
+.menu {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.menu li {
+    list-style: none;
+    position: relative;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #3a1212;
+    font-weight: 700;
+}
+
+.menu-btn {
+    background-color: #5a1f1f;
+    color: white !important;
+    padding: 8px 14px;
+    border-radius: 8px;
+}
+
+main {
+    margin-top: 180px;
+}
+
+#userMenu {
+    position: relative;
+}
+
+.user-btn {
+    cursor: pointer;
+}
+
+.user-dropdown {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    padding: 8px;
+    min-width: 120px;
+    z-index: 999;
+
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+
+    transition: all 0.25s ease;
+}
+
+.user-dropdown.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.logout-btn {
+    display: block;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background-color: #f5f1ef;
+    color: #5a1f1f !important;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.logout-btn:hover {
+    background-color: #5a1f1f;
+    color: white !important;
 }

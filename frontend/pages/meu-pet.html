@@ -3,73 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Pet - SkinVet</title>
+
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/meu-pet.css">
     <link href="https://fonts.googleapis.com/css2?family=Ruda:wght@400;700&display=swap" rel="stylesheet">
-    <title>Meu Pet - SkinVet</title>
 </head>
 <body>
 
-<header class="topbar">
-<a href="../index.html" class="btn-voltar">
-    <img src="../imagens/voltar.png" alt="Voltar">
-</a>
+<header>
+    <div class="navbar">
+        <a href="../index.html">
+            <img src="../imagens/logo.png" alt="Logo SkinVet" class="logo">
+        </a>
 
-    <a href="../index.html">
-        <img src="../imagens/logo.png" alt="Logo SkinVet" class="logo-topo">
-    </a>
+        <ul class="menu">
+            <li id="userMenu"></li>
+            <li id="signupMenu"></li>
+        </ul>
+    </div>
 </header>
 
 <main class="pet-container">
-   <section class="pet-card">
-    <h1>Meus Pets</h1>
-    <p>Selecione um pet para ver o cadastro completo.</p>
+    <section class="pet-card">
+        <h1>Meus Pets</h1>
 
-    <div class="lista-pets">
-        <a href="#" class="pet-item">
-            
-            <span class="pet-nome">Mel</span>
-            <span class="pet-tipo">🐶 Cachorro</span>
-            <span class="pet-status">Acompanhamento</span>
-        </a>
+        <p class="descricao-pet">
+            Veja os pets cadastrados na sua conta e acompanhe as informações de cada animal.
+        </p>
 
-        <a href="#" class="pet-item">
-            <span class="pet-nome">Luna</span>
-            <span class="pet-tipo">🐱 Gato</span>
-            <span class="pet-status">Acompanhamento</span>
-        </a>
+        <div class="lista-pets" id="listaPets">
+            <p class="sem-pets">Nenhum pet cadastrado ainda.</p>
+        </div>
+
+        <div class="acoes-pet">
+            <a href="cadastro-pet.html" class="btn-adicionar">
+                Adicionar pet
+            </a>
+
+            <button class="btn-remover-geral" type="button">
+                Remover pet
+            </button>
+        </div>
+    </section>
+</main>
+
+<div id="modalMotivo" class="modal oculto">
+    <div class="modal-conteudo">
+        <h3>Escolha o motivo da remoção</h3>
+
+        <label class="opcao-motivo">
+            <input type="radio" name="motivo" value="Não tenho mais esse pet">
+            <span>Não tenho mais esse pet</span>
+        </label>
+
+        <label class="opcao-motivo">
+            <input type="radio" name="motivo" value="Não quero mais acompanhamento">
+            <span>Não quero mais acompanhamento</span>
+        </label>
+
+        <label class="opcao-motivo">
+            <input type="radio" name="motivo" value="Outros">
+            <span>Outros</span>
+        </label>
+
+        <div class="acoes-modal">
+            <button id="confirmarRemocao" type="button">Confirmar</button>
+            <button id="cancelarRemocao" type="button">Cancelar</button>
+        </div>
     </div>
-
-    <div class="acoes-pet">
-    <a href="#" class="btn-adicionar">Adicionar pet</a>
-    <button class="btn-remover-geral" type="button">Remover pet</button>
 </div>
 
-    <div class="pre-cadastro">
-        <h2>Pré-cadastro do pet</h2>
-
-        <form>
-            <label for="nome-pet">Nome do pet</label>
-            <input type="text" id="nome-pet" placeholder="Ex: Mel">
-
-            <label>Tipo de animal</label>
-
-            <div class="tipo-animal">
-                <label>
-                    <input type="radio" name="tipo-pet" value="cachorro">
-                    🐶 Cachorro
-                </label>
-
-                <label>
-                    <input type="radio" name="tipo-pet" value="gato">
-                    🐱 Gato
-                </label>
-            </div>
-
-            <button type="submit">Salvar pet</button>
-        </form>
-    </div>
-</section>
-</main>
+<!-- IMPORTANTE -->
+<script src="../js/auth.js"></script>
+<script src="../js/meu-pet.js"></script>
 
 </body>
 </html>

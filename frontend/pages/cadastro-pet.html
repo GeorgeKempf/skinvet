@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Pet - SkinVet</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/meu-pet.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ruda:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <div class="navbar">
+        <a href="../index.html">
+            <img src="../imagens/logo.png" alt="Logo SkinVet" class="logo">
+        </a>
+
+        <ul class="menu">
+            <li id="userMenu"></li>
+            <li id="signupMenu"></li>
+        </ul>
+    </div>
+</header>
+
+<main class="pet-container">
+    <section class="pet-card cadastro-pet-card">
+        <h1>Cadastrar Pet</h1>
+
+        <p class="descricao-pet">
+            Preencha as informações básicas do animal.
+        </p>
+
+        <form id="petForm" class="form-pet">
+            <label for="nome-pet">Nome do animal</label>
+            <input type="text" id="nome-pet" placeholder="Ex: Mel" required>
+
+            <label for="especie-pet">Espécie</label>
+            <select id="especie-pet" required>
+                <option value="">Selecione</option>
+                <option value="cachorro">Cão</option>
+                <option value="gato">Gato</option>
+            </select>
+
+            <label for="raca-pet">Raça</label>
+            <input type="text" id="raca-pet" placeholder="Ex: Shih-tzu, SRD, Persa">
+
+            <label for="idade-pet">Idade</label>
+            <input type="number" id="idade-pet" placeholder="Ex: 3" min="0">
+
+            <label for="sexo-pet">Sexo</label>
+            <select id="sexo-pet" required>
+                <option value="">Selecione</option>
+                <option value="macho">Macho</option>
+                <option value="femea">Fêmea</option>
+            </select>
+
+            <label for="cor-pet">Cor da pelagem</label>
+            <input type="text" id="cor-pet" placeholder="Ex: Branco, preto e caramelo">
+
+            <label for="microchip-pet">Número do microchip</label>
+            <input type="text" id="microchip-pet" placeholder="Caso possua">
+
+            <label for="foto-pet">Foto atualizada do pet</label>
+            <input type="file" id="foto-pet" accept="image/*">
+
+            <button type="submit" class="btn-salvar-pet">
+                Salvar pet
+            </button>
+        </form>
+    </section>
+</main>
+
+<!-- IMPORTANTE -->
+<script src="../js/auth.js"></script>
+<script src="../js/cadastro-pet.js"></script>
+
+</body>
+</html>

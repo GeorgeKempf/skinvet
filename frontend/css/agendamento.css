@@ -20,26 +20,6 @@ body {
     height: auto;
 }
 
-.btn-voltar {
-    position: absolute;
-    left: 150px;
-    top: -15px;
-    z-index: 1000;
-}
-
-.btn-voltar img {
-    width: 180px;
-    max-width: none;
-    height: auto;
-    display: block;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.btn-voltar img:hover {
-    transform: scale(1.05);
-}
-
 .agenda-container {
     min-height: calc(100vh - 120px);
     display: flex;
@@ -130,3 +110,4 @@ body {
 .agenda-form button:hover {
     background-color: #3a1212;
 }
+

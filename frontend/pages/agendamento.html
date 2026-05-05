@@ -3,66 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/agendamento.css">
-    <link href="https://fonts.googleapis.com/css2?family=Ruda:wght@400;700&display=swap" rel="stylesheet">
     <title>Agendamento - SkinVet</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/meu-pet.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ruda:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<header class="topbar">
-    <a href="../index.html" class="btn-voltar">
-    <img src="../imagens/voltar.png" alt="Voltar">
-</a>
+<header>
+    <div class="navbar">
+        <a href="../index.html">
+            <img src="../imagens/logo.png" alt="Logo SkinVet" class="logo">
+        </a>
 
-    <a href="../index.html">
-        <img src="../imagens/logo.png" alt="Logo SkinVet" class="logo-topo">
-    </a>
+        <ul class="menu">
+            <li id="userMenu"></li>
+            <li id="signupMenu"></li>
+        </ul>
+    </div>
 </header>
 
-<main class="agenda-container">
-    <section class="agenda-card">
-        <h1>Agendar consulta</h1>
-        <p>Preencha os dados abaixo para solicitar um horário.</p>
+<main class="pet-container">
+    <section class="pet-card cadastro-pet-card">
+        <h1>Agendamento</h1>
 
-<div class="pet-tipo-container">
-        <label>Agendamento para um:</label>
+        <p class="descricao-pet">
+            Solicite um horário para atendimento dermatológico do seu pet.
+        </p>
 
-    <div class="pet-tipo">
-        <label class="tipo-opcao">
-            <input type="radio" name="tipo" value="cao" required>
-            🐶 Cachorro
-        </label>
+        <form id="agendamentoForm" class="form-pet">
 
-        <label class="tipo-opcao">
-            <input type="radio" name="tipo" value="gato">
-            🐱 Gato
-        </label>
-    </div>
-</div>
+            <label>Agendamento para</label>
+            <div id="listaPetsAgendamento" class="lista-pets-agendamento"></div>
+            <input type="hidden" id="pet-agendamento">
 
-        <form class="agenda-form">
-            <label for="nome">Nome do tutor</label>
-            <input type="text" id="nome" required>
+            <label for="data-agendamento">Data desejada</label>
+            <input type="date" id="data-agendamento" required>
 
-            <label for="pet">Nome do pet</label>
-            <input type="text" id="pet" required>
+            <label for="horario-agendamento">Horário desejado</label>
+            <input type="time" id="horario-agendamento" required>
 
-            <label for="telefone">Telefone</label>
-            <input type="text" id="telefone" required>
+            <label for="observacao-agendamento">Observação</label>
+            <textarea 
+                id="observacao-agendamento" 
+                placeholder="Descreva brevemente o motivo da consulta"
+                rows="4"
+                required
+            ></textarea>
 
-            <label for="data">Data desejada</label>
-            <input type="date" id="data" required>
+            <button type="submit" class="btn-salvar-pet">
+                Solicitar agendamento
+            </button>
 
-            <label for="horario">Horário desejado</label>
-            <input type="time" id="horario" required>
-
-            <label for="mensagem">Observação</label>
-            <textarea id="mensagem" rows="4" placeholder="Descreva brevemente o motivo da consulta"></textarea>
-
-            <button type="submit">Solicitar agendamento</button>
         </form>
     </section>
 </main>
+
+<!-- IMPORTANTE -->
+<script src="../js/auth.js"></script>
+<script src="../js/agendamento.js"></script>
 
 </body>
 </html>

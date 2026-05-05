@@ -3,28 +3,52 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const fs = require("fs");
 const bcrypt = require("bcryptjs");
+const multer = require("multer");
 const db = require("./config/db");
-//const inicializarBanco = require("./config/inicializar-banco");
-
-// Inicializar banco com constraints
-//inicializarBanco();
 
 const app = express();
 const port = process.env.PORT || 3001;
 
 const frontendPath = path.resolve(__dirname, "..", "..", "frontend");
+const uploadsPath = path.resolve(__dirname, "..", "uploads");
+const petsUploadsPath = path.resolve(uploadsPath, "pets");
+
+if (!fs.existsSync(petsUploadsPath)) {
+    fs.mkdirSync(petsUploadsPath, { recursive: true });
+}
 
 app.use(cors());
 app.use(express.json());
+
+app.use("/uploads", express.static(uploadsPath));
+app.use(express.static(frontendPath));
 
 app.use((req, res, next) => {
     console.log(`${req.method} ${req.url}`);
     next();
 });
 
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, petsUploadsPath);
+    },
+    filename: function (req, file, cb) {
+        const extensao = path.extname(file.originalname);
+        const nomeUnico = Date.now() + "-" + Math.round(Math.random() * 1E9) + extensao;
+        cb(null, nomeUnico);
+    }
+});
+
+const upload = multer({ storage });
+
 app.get("/health", (req, res) => {
     res.send("OK");
+});
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(frontendPath, "index.html"));
 });
 
 app.post("/cadastro", async (req, res) => {
@@ -83,11 +107,6 @@ app.post("/cadastro", async (req, res) => {
 
     } catch (erro) {
         console.error("ERRO NO CADASTRO:", erro);
-
-        if (erro.code === "23505") {
-            return res.status(400).json({ mensagem: "Email ou CPF já cadastrado" });
-        }
-
         return res.status(500).json({ mensagem: "Erro no servidor" });
     }
 });
@@ -112,7 +131,6 @@ app.post("/login", async (req, res) => {
         }
 
         const usuario = usuarios.rows[0];
-
         const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
 
         if (!senhaCorreta) {
@@ -130,22 +148,69 @@ app.post("/login", async (req, res) => {
         });
 
     } catch (erro) {
-    console.error("ERRO REAL NO CADASTRO:", erro);
+        console.error("ERRO NO LOGIN:", erro);
+        return res.status(500).json({ mensagem: "Erro no servidor" });
+    }
+});
 
-    if (erro.code === "23505") {
-        return res.status(400).json({ mensagem: "Email ou CPF já cadastrado" });
+// CADASTRAR PET COM FOTO
+app.post("/pets", upload.single("foto"), async (req, res) => {
+    const { nome, especie, raca, idade, sexo, usuario_id } = req.body;
+
+    if (!nome || !especie || !sexo || !usuario_id) {
+        return res.status(400).json({ mensagem: "Preencha os campos obrigatórios" });
     }
 
-    return res.status(500).json({ mensagem: "Erro no servidor" });
-}
+    const foto_url = req.file
+        ? `/uploads/pets/${req.file.filename}`
+        : null;
+
+    try {
+        await db.query(
+            `INSERT INTO pets (nome, especie, raca, idade, sexo, foto_url, usuario_id, ativo)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, true)`,
+            [
+                nome,
+                especie,
+                raca || null,
+                idade || null,
+                sexo,
+                foto_url,
+                usuario_id
+    ]
+);
+
+        return res.json({ mensagem: "Pet cadastrado com sucesso" });
+
+    } catch (erro) {
+        console.error("ERRO AO CADASTRAR PET:", erro);
+        return res.status(500).json({ mensagem: "Erro ao cadastrar pet" });
+    }
 });
 
-app.use(express.static(frontendPath));
+// LISTAR PETS DO USUÁRIO
+app.get("/pets/:usuario_id", async (req, res) => {
+    const { usuario_id } = req.params;
 
-app.get("/", (req, res) => {
-    res.sendFile(path.join(frontendPath, "index.html"));
+    try {
+        const pets = await db.query(
+            `SELECT *
+             FROM pets
+             WHERE usuario_id = $1
+             AND ativo = true
+             ORDER BY id DESC`,
+            [usuario_id]
+        );
+
+        return res.json(pets.rows);
+
+    } catch (erro) {
+        console.error("ERRO AO BUSCAR PETS:", erro);
+        return res.status(500).json({ mensagem: "Erro ao buscar pets" });
+    }
 });
 
+// REMOVER PET
 app.delete("/pets/:pet_id", async (req, res) => {
     const { pet_id } = req.params;
     const { motivoExclusao } = req.body;
@@ -157,7 +222,7 @@ app.delete("/pets/:pet_id", async (req, res) => {
                  motivo_exclusao = $1, 
                  data_exclusao = NOW()
              WHERE id = $2`,
-            [motivoExclusao, pet_id]
+            [motivoExclusao || null, pet_id]
         );
 
         return res.json({ mensagem: "Pet removido com sucesso" });
@@ -170,42 +235,4 @@ app.delete("/pets/:pet_id", async (req, res) => {
 
 app.listen(port, () => {
     console.log(`SkinVet API rodando em http://localhost:${port}`);
-});
-
-// CADASTRAR PET
-app.post("/pets", async (req, res) => {
-    const { nome, especie, raca, idade, peso, usuario_id } = req.body;
-
-    try {
-        await db.query(
-            `INSERT INTO pets (nome, especie, raca, idade, peso, usuario_id)
-             VALUES ($1, $2, $3, $4, $5, $6)`,
-            [nome, especie, raca, idade, peso, usuario_id]
-        );
-
-        return res.json({ mensagem: "Pet cadastrado com sucesso" });
-
-    } catch (erro) {
-        console.error(erro);
-        return res.status(500).json({ mensagem: "Erro ao cadastrar pet" });
-    }
-});
-
-
-// LISTAR PETS DO USUÁRIO
-app.get("/pets/:usuario_id", async (req, res) => {
-    const { usuario_id } = req.params;
-
-    try {
-        const pets = await db.query(
-            "SELECT * FROM pets WHERE usuario_id = $1",
-            [usuario_id]
-        );
-
-        return res.json(pets.rows);
-
-    } catch (erro) {
-        console.error(erro);
-        return res.status(500).json({ mensagem: "Erro ao buscar pets" });
-    }
 });

@@ -1,4 +1,4 @@
-function getChavePetsUsuario() {
+function getUsuarioLogado() {
     const usuario = JSON.parse(localStorage.getItem("skinvetUser"));
 
     if (!usuario) {
@@ -7,7 +7,7 @@ function getChavePetsUsuario() {
         return null;
     }
 
-    return `pets_${usuario.email}`;
+    return usuario;
 }
 
 let petParaRemover = null;
@@ -20,54 +20,65 @@ const modal = document.getElementById("modalMotivo");
 const btnConfirmar = document.getElementById("confirmarRemocao");
 const btnCancelar = document.getElementById("cancelarRemocao");
 
-function carregarPets() {
-    const chavePets = getChavePetsUsuario();
-    if (!chavePets) return;
+async function carregarPets() {
+    const usuario = getUsuarioLogado();
+    if (!usuario) return;
 
-    const pets = JSON.parse(localStorage.getItem(chavePets)) || [];
-    const petsAtivos = pets.filter((pet) => pet.ativo !== false);
+    try {
+        const resposta = await fetch(`http://localhost:3001/pets/${usuario.id}`);
+        const pets = await resposta.json();
 
-    listaPets.innerHTML = "";
+        listaPets.innerHTML = "";
 
-    if (petsAtivos.length === 0) {
-        listaPets.innerHTML = `<p class="sem-pets">Nenhum pet cadastrado ainda.</p>`;
-        return;
-    }
+        if (!pets || pets.length === 0) {
+            listaPets.innerHTML = `<p class="sem-pets">Nenhum pet cadastrado ainda.</p>`;
+            return;
+        }
 
-    petsAtivos.forEach((pet) => {
-        const especieTexto = pet.especie === "cachorro" ? "Cão" : "Gato";
-        const fotoPet = pet.foto || "../imagens/pet-padrao.png";
+        pets.forEach((pet) => {
+            const especieTexto = pet.especie === "cachorro" || pet.especie === "Cachorro"
+                ? "Cão"
+                : "Gato";
 
-        const petItem = document.createElement("div");
-        petItem.classList.add("pet-item");
+            const fotoPet = pet.foto_url
+                ? `http://localhost:3001${pet.foto_url}`
+                : "../imagens/pet-padrao.png";
 
-        petItem.innerHTML = `
-            <div class="pet-info">
-                <img src="${fotoPet}" class="foto-pet-lista" alt="Foto de ${pet.nome}">
-                <div>
-                    <strong>${pet.nome}</strong>
-                    <span>${especieTexto}</span>
+            const petItem = document.createElement("div");
+            petItem.classList.add("pet-item");
+
+            petItem.innerHTML = `
+                <div class="pet-info">
+                    <img src="${fotoPet}" class="foto-pet-lista" alt="Foto de ${pet.nome}">
+                    <div>
+                        <strong>${pet.nome}</strong>
+                        <span>${especieTexto}</span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="acoes-item">
-                ${
-                    modoRemocao
-                        ? `<button class="btn-excluir" data-id="${pet.id}">Remover</button>`
-                        : `<a href="acompanhamento-pet.html?id=${pet.id}" class="btn-acompanhamento">Acompanhamento</a>`
-                }
-            </div>
-        `;
+                <div class="acoes-item">
+                    ${
+                        modoRemocao
+                            ? `<button class="btn-excluir" data-id="${pet.id}">Remover</button>`
+                            : `<a href="acompanhamento-pet.html?id=${pet.id}" class="btn-acompanhamento">Acompanhamento</a>`
+                    }
+                </div>
+            `;
 
-        listaPets.appendChild(petItem);
-    });
-
-    document.querySelectorAll(".btn-excluir").forEach((btn) => {
-        btn.addEventListener("click", function () {
-            petParaRemover = Number(this.getAttribute("data-id"));
-            modal.classList.remove("oculto");
+            listaPets.appendChild(petItem);
         });
-    });
+
+        document.querySelectorAll(".btn-excluir").forEach((btn) => {
+            btn.addEventListener("click", function () {
+                petParaRemover = this.getAttribute("data-id");
+                modal.classList.remove("oculto");
+            });
+        });
+
+    } catch (erro) {
+        console.error("ERRO AO CARREGAR PETS:", erro);
+        listaPets.innerHTML = `<p class="sem-pets">Erro ao carregar pets.</p>`;
+    }
 }
 
 btnRemover.addEventListener("click", () => {
@@ -76,9 +87,8 @@ btnRemover.addEventListener("click", () => {
     carregarPets();
 });
 
-btnConfirmar.addEventListener("click", () => {
-    const chavePets = getChavePetsUsuario();
-    if (!chavePets) return;
+btnConfirmar.addEventListener("click", async () => {
+    if (!petParaRemover) return;
 
     const selecionado = document.querySelector('input[name="motivo"]:checked');
 
@@ -89,34 +99,40 @@ btnConfirmar.addEventListener("click", () => {
 
     const motivoTexto = selecionado.value;
 
-    let pets = JSON.parse(localStorage.getItem(chavePets)) || [];
+    try {
+        const resposta = await fetch(`http://localhost:3001/pets/${petParaRemover}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                motivoExclusao: motivoTexto
+            })
+        });
 
-    pets = pets.map((pet) => {
-        if (pet.id === petParaRemover) {
-            return {
-                ...pet,
-                ativo: false,
-                motivoExclusao: motivoTexto,
-                dataExclusao: new Date().toISOString()
-            };
+        const dados = await resposta.json();
+
+        if (!resposta.ok) {
+            alert(dados.mensagem || "Erro ao remover pet.");
+            return;
         }
 
-        return pet;
-    });
+        modal.classList.add("oculto");
 
-    localStorage.setItem(chavePets, JSON.stringify(pets));
+        document.querySelectorAll('input[name="motivo"]').forEach((input) => {
+            input.checked = false;
+        });
 
-    modal.classList.add("oculto");
+        petParaRemover = null;
+        modoRemocao = false;
+        btnRemover.textContent = "Remover pet";
 
-    document.querySelectorAll('input[name="motivo"]').forEach((input) => {
-        input.checked = false;
-    });
+        carregarPets();
 
-    petParaRemover = null;
-    modoRemocao = false;
-    btnRemover.textContent = "Remover pet";
-
-    carregarPets();
+    } catch (erro) {
+        console.error("ERRO AO REMOVER PET:", erro);
+        alert("Erro ao conectar com o servidor.");
+    }
 });
 
 btnCancelar.addEventListener("click", () => {

@@ -1,4 +1,4 @@
-function getChavePetsUsuario() {
+function getUsuarioLogado() {
     const usuario = JSON.parse(localStorage.getItem("skinvetUser"));
 
     if (!usuario) {
@@ -7,22 +7,22 @@ function getChavePetsUsuario() {
         return null;
     }
 
-    return `pets_${usuario.email}`;
+    return usuario;
 }
 
 const form = document.getElementById("petForm");
 
-form.addEventListener("submit", function (e) {
+form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const chavePets = getChavePetsUsuario();
-    if (!chavePets) return;
+    const usuario = getUsuarioLogado();
+    if (!usuario) return;
 
     const nome = document.getElementById("nome-pet").value.trim();
     const especie = document.getElementById("especie-pet").value;
     const raca = document.getElementById("raca-pet").value.trim();
     const idadeDesconhecida = document.getElementById("idadeDesconhecida").checked;
-    const idade = idadeDesconhecida ? null : document.getElementById("idade").value;
+    const idade = idadeDesconhecida ? "" : document.getElementById("idade").value;
     const sexo = document.getElementById("sexo-pet").value;
     const fotoInput = document.getElementById("foto-pet");
 
@@ -31,38 +31,37 @@ form.addEventListener("submit", function (e) {
         return;
     }
 
-    function salvarPet(fotoBase64) {
-        const pets = JSON.parse(localStorage.getItem(chavePets)) || [];
+    const formData = new FormData();
 
-        const novoPet = {
-            id: Date.now(),
-            nome,
-            especie,
-            raca,
-            idade,
-            sexo,
-            foto: fotoBase64 || null,
-            ativo: true,
-            motivoExclusao: null,
-            dataExclusao: null
-        };
+    formData.append("nome", nome);
+    formData.append("especie", especie);
+    formData.append("raca", raca);
+    formData.append("idade", idade);
+    formData.append("sexo", sexo);
+    formData.append("usuario_id", usuario.id);
 
-        pets.push(novoPet);
-        localStorage.setItem(chavePets, JSON.stringify(pets));
+    if (fotoInput.files.length > 0) {
+        formData.append("foto", fotoInput.files[0]);
+    }
+
+    try {
+        const resposta = await fetch("http://localhost:3001/pets", {
+            method: "POST",
+            body: formData
+        });
+
+        const dados = await resposta.json();
+
+        if (!resposta.ok) {
+            alert(dados.mensagem || "Erro ao cadastrar pet.");
+            return;
+        }
 
         alert("Pet cadastrado com sucesso!");
         window.location.href = "meu-pet.html";
-    }
 
-    if (fotoInput.files.length > 0) {
-        const reader = new FileReader();
-
-        reader.onload = function () {
-            salvarPet(reader.result);
-        };
-
-        reader.readAsDataURL(fotoInput.files[0]);
-    } else {
-        salvarPet(null);
+    } catch (erro) {
+        console.error("ERRO AO CADASTRAR PET:", erro);
+        alert("Erro ao conectar com o servidor.");
     }
 });

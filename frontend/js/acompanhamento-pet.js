@@ -1,4 +1,4 @@
-function getChavePetsUsuario() {
+function getUsuarioLogado() {
     const usuario = JSON.parse(localStorage.getItem("skinvetUser"));
 
     if (!usuario) {
@@ -7,28 +7,45 @@ function getChavePetsUsuario() {
         return null;
     }
 
-    return `pets_${usuario.email}`;
+    return usuario;
 }
 
 const params = new URLSearchParams(window.location.search);
-const petId = Number(params.get("id"));
+const petId = params.get("id");
 
 const titulo = document.getElementById("tituloAcompanhamento");
 const foto = document.getElementById("fotoPet");
 
-const chavePets = getChavePetsUsuario();
+async function carregarPet() {
+    const usuario = getUsuarioLogado();
+    if (!usuario) return;
 
-if (chavePets) {
-    const pets = JSON.parse(localStorage.getItem(chavePets)) || [];
-    const pet = pets.find((item) => item.id === petId && item.ativo !== false);
+    if (!petId) {
+        titulo.textContent = "Pet não encontrado";
+        return;
+    }
 
-    if (pet) {
+    try {
+        const resposta = await fetch(`http://localhost:3001/pet/${petId}`);
+        const pet = await resposta.json();
+
+        if (!resposta.ok) {
+            titulo.textContent = "Pet não encontrado";
+            return;
+        }
+
         titulo.textContent = `Acompanhamento de ${pet.nome}`;
 
-        if (pet.foto) {
-            foto.src = pet.foto;
+        if (pet.foto_url) {
+            foto.src = `http://localhost:3001${pet.foto_url}`;
+        } else {
+            foto.src = "../imagens/pet-padrao.png";
         }
-    } else {
-        titulo.textContent = "Pet não encontrado";
+
+    } catch (erro) {
+        console.error("ERRO AO CARREGAR PET:", erro);
+        titulo.textContent = "Erro ao carregar pet";
     }
 }
+
+carregarPet();

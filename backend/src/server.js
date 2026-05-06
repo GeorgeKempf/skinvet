@@ -1,12 +1,12 @@
 require("dotenv").config();
 
+const db = require("./config/db");
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const fs = require("fs");
 const bcrypt = require("bcryptjs");
 const multer = require("multer");
-const db = require("./config/db");
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -230,6 +230,27 @@ app.delete("/pets/:pet_id", async (req, res) => {
     } catch (erro) {
         console.error("ERRO AO REMOVER PET:", erro);
         return res.status(500).json({ mensagem: "Erro ao remover pet" });
+    }
+});
+
+app.get("/pet/:pet_id", async (req, res) => {
+    const { pet_id } = req.params;
+
+    try {
+        const resultado = await db.query(
+            "SELECT * FROM pets WHERE id = $1 AND ativo = true",
+            [pet_id]
+        );
+
+        if (resultado.rows.length === 0) {
+            return res.status(404).json({ mensagem: "Pet não encontrado" });
+        }
+
+        return res.json(resultado.rows[0]);
+
+    } catch (erro) {
+        console.error("ERRO AO BUSCAR PET:", erro);
+        return res.status(500).json({ mensagem: "Erro ao buscar pet" });
     }
 });
 

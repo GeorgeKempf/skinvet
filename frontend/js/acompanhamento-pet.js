@@ -61,4 +61,112 @@ async function carregarPet() {
     }
 }
 
+const listaAgendamentosPet = document.getElementById("listaAgendamentosPet");
+const mensagemSemAgendamento = document.getElementById("mensagemSemAgendamento");
+
+function carregarAgendamentosDoPet() {
+    const usuario = getUsuarioLogado();
+    if (!usuario) return;
+
+    const chaveAgendamentos = `agendamentos_${usuario.email}`;
+    const agendamentos = JSON.parse(localStorage.getItem(chaveAgendamentos)) || [];
+
+    const agendamentosDoPet = agendamentos.filter((item) => {
+        return Number(item.petId) === Number(petId) && item.status !== "Cancelado";
+    });
+
+    listaAgendamentosPet.innerHTML = "";
+
+    if (agendamentosDoPet.length === 0) {
+        mensagemSemAgendamento.style.display = "block";
+        return;
+    }
+
+    mensagemSemAgendamento.style.display = "none";
+
+    agendamentosDoPet.forEach((agendamento) => {
+        const item = document.createElement("div");
+        item.classList.add("agendamento-item");
+
+        item.innerHTML = `
+            <h3>Agendamento solicitado</h3>
+            <p><strong>Data:</strong> ${agendamento.data}</p>
+            <p><strong>Horário:</strong> ${agendamento.horario}</p>
+            <p><strong>Observação:</strong> ${agendamento.observacao}</p>
+            <p><strong>Status:</strong> ${agendamento.status}</p>
+
+            <div class="botoes-agendamento">
+                <button onclick="editarAgendamento(${agendamento.id})">Editar</button>
+                <button onclick="cancelarAgendamento(${agendamento.id})">Cancelar</button>
+            </div>
+        `;
+
+        listaAgendamentosPet.appendChild(item);
+    });
+}
+
+function cancelarAgendamento(id) {
+    const usuario = getUsuarioLogado();
+    if (!usuario) return;
+
+    const confirmar = confirm("Tem certeza que deseja cancelar este agendamento?");
+    if (!confirmar) return;
+
+    const chaveAgendamentos = `agendamentos_${usuario.email}`;
+    const agendamentos = JSON.parse(localStorage.getItem(chaveAgendamentos)) || [];
+
+    const agendamentosAtualizados = agendamentos.map((item) => {
+        if (item.id === id) {
+            return {
+                ...item,
+                status: "Cancelado"
+            };
+        }
+
+        return item;
+    });
+
+    localStorage.setItem(chaveAgendamentos, JSON.stringify(agendamentosAtualizados));
+    carregarAgendamentosDoPet();
+}
+
+function editarAgendamento(id) {
+    const usuario = getUsuarioLogado();
+    if (!usuario) return;
+
+    const chaveAgendamentos = `agendamentos_${usuario.email}`;
+    const agendamentos = JSON.parse(localStorage.getItem(chaveAgendamentos)) || [];
+
+    const agendamento = agendamentos.find((item) => item.id === id);
+
+    if (!agendamento) return;
+
+    const novaData = prompt("Nova data:", agendamento.data);
+    const novoHorario = prompt("Novo horário:", agendamento.horario);
+    const novaObservacao = prompt("Nova observação:", agendamento.observacao);
+
+    if (!novaData || !novoHorario || !novaObservacao) {
+        alert("Edição cancelada.");
+        return;
+    }
+
+    const agendamentosAtualizados = agendamentos.map((item) => {
+        if (item.id === id) {
+            return {
+                ...item,
+                data: novaData,
+                horario: novoHorario,
+                observacao: novaObservacao,
+                status: "Solicitado"
+            };
+        }
+
+        return item;
+    });
+
+    localStorage.setItem(chaveAgendamentos, JSON.stringify(agendamentosAtualizados));
+    carregarAgendamentosDoPet();
+}
+
 carregarPet();
+carregarAgendamentosDoPet();

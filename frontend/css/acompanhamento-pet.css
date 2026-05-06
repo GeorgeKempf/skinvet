@@ -35,3 +35,37 @@
     color: #7a5c57;
     font-size: 15px;
 }
+
+.agendamento-item {
+    background-color: #f8f2ef;
+    border-left: 5px solid #5a1f1f;
+    padding: 18px;
+    border-radius: 12px;
+    margin-top: 15px;
+    text-align: left;
+}
+
+.agendamento-item h3 {
+    margin-top: 0;
+    color: #5a1f1f;
+}
+
+.botoes-agendamento {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.botoes-agendamento button {
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    background-color: #5a1f1f;
+    color: white;
+}
+
+.botoes-agendamento button:last-child {
+    background-color: #9b2f2f;
+}

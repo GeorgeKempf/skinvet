@@ -1,4 +1,4 @@
-function getChavePetsUsuario() {
+function getUsuarioLogado() {
     const usuario = JSON.parse(localStorage.getItem("skinvetUser"));
 
     if (!usuario) {
@@ -7,58 +7,70 @@ function getChavePetsUsuario() {
         return null;
     }
 
-    return `pets_${usuario.email}`;
+    return usuario;
 }
 
 const form = document.getElementById("agendamentoForm");
 const listaPetsContainer = document.getElementById("listaPetsAgendamento");
 const inputPetSelecionado = document.getElementById("pet-agendamento");
 
-function carregarPetsNoAgendamento() {
-    const chavePets = getChavePetsUsuario();
-    if (!chavePets) return;
+async function carregarPetsNoAgendamento() {
+    const usuario = getUsuarioLogado();
+    if (!usuario) return;
 
-    const pets = JSON.parse(localStorage.getItem(chavePets)) || [];
-    const petsAtivos = pets.filter((pet) => pet.ativo !== false);
+    try {
+        const resposta = await fetch(`http://localhost:3001/pets/${usuario.id}`);
+        const pets = await resposta.json();
 
-    listaPetsContainer.innerHTML = "";
+        listaPetsContainer.innerHTML = "";
 
-    if (petsAtivos.length === 0) {
-        listaPetsContainer.innerHTML = "<p>Nenhum pet cadastrado</p>";
-        return;
-    }
+        if (!pets || pets.length === 0) {
+            listaPetsContainer.innerHTML = `
+                <div class="sem-pets">
+                    <p>Você ainda não possui pets cadastrados.</p>
+                    <a href="meu-pet.html">Cadastrar meu primeiro pet</a>
+                </div>
+            `;
+            return;
+        }
 
-    petsAtivos.forEach((pet) => {
-        const item = document.createElement("div");
-        item.classList.add("pet-agendamento-item");
+        pets.forEach((pet) => {
+            const item = document.createElement("div");
+            item.classList.add("pet-agendamento-item");
 
-        const foto = pet.foto || "../imagens/pet-padrao.png";
-        const especie = pet.especie === "cachorro" ? "Cão" : "Gato";
+            const foto = pet.foto_url
+                ? `http://localhost:3001${pet.foto_url}`
+                : "../imagens/pet-padrao.png";
 
-        item.innerHTML = `
-            <img src="${foto}" alt="Foto de ${pet.nome}">
-            <div class="pet-agendamento-info">
-                <strong>${pet.nome}</strong>
-                <span>${especie}</span>
-            </div>
-        `;
+            item.innerHTML = `
+                <img src="${foto}" alt="Foto de ${pet.nome}">
+                <div class="pet-agendamento-info">
+                    <strong>${pet.nome}</strong>
+                    <span>${pet.especie || "Espécie não informada"}</span>
+                </div>
+            `;
 
-        item.addEventListener("click", () => {
-            document.querySelectorAll(".pet-agendamento-item")
-                .forEach((el) => el.classList.remove("selecionado"));
+            item.addEventListener("click", () => {
+                document.querySelectorAll(".pet-agendamento-item")
+                    .forEach((el) => el.classList.remove("selecionado"));
 
-            item.classList.add("selecionado");
-            inputPetSelecionado.value = pet.id;
+                item.classList.add("selecionado");
+                inputPetSelecionado.value = pet.id;
+            });
+
+            listaPetsContainer.appendChild(item);
         });
 
-        listaPetsContainer.appendChild(item);
-    });
+    } catch (erro) {
+        console.error("Erro ao carregar pets:", erro);
+        listaPetsContainer.innerHTML = "<p>Erro ao carregar pets.</p>";
+    }
 }
 
 form.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const usuario = JSON.parse(localStorage.getItem("skinvetUser"));
+    const usuario = getUsuarioLogado();
     if (!usuario) return;
 
     const petId = Number(inputPetSelecionado.value);
@@ -66,7 +78,12 @@ form.addEventListener("submit", function (e) {
     const horario = document.getElementById("horario-agendamento").value;
     const observacao = document.getElementById("observacao-agendamento").value.trim();
 
-    if (!petId || !data || !horario || !observacao) {
+    if (!petId) {
+        alert("Selecione um pet para o agendamento.");
+        return;
+    }
+
+    if (!data || !horario || !observacao) {
         alert("Preencha todos os campos.");
         return;
     }
@@ -88,11 +105,7 @@ form.addEventListener("submit", function (e) {
 
     alert("Agendamento solicitado com sucesso!");
 
-    form.reset();
-    inputPetSelecionado.value = "";
-
-    document.querySelectorAll(".pet-agendamento-item")
-        .forEach((el) => el.classList.remove("selecionado"));
+    window.location.href = `acompanhamento-pet.html?id=${petId}`;
 });
 
 carregarPetsNoAgendamento();

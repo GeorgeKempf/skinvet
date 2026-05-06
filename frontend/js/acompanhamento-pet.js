@@ -10,6 +10,11 @@ function getUsuarioLogado() {
     return usuario;
 }
 
+const especiePet = document.getElementById("especiePet");
+const racaPet = document.getElementById("racaPet");
+const idadePet = document.getElementById("idadePet");
+const sexoPet = document.getElementById("sexoPet");
+
 const params = new URLSearchParams(window.location.search);
 const petId = params.get("id");
 
@@ -37,6 +42,14 @@ async function carregarPet() {
         titulo.textContent = `Acompanhamento de ${pet.nome}`;
 
         if (pet.foto_url) {
+            especiePet.textContent = pet.especie || "Não informado";
+            racaPet.textContent = pet.raca || "Não informado";
+
+            sexoPet.textContent = pet.sexo || "Não informado";
+
+            idadePet.textContent = pet.idade
+    ? `${pet.idade} ano${pet.idade > 1 ? "s" : ""}`
+    : "Não informado";
             foto.src = `http://localhost:3001${pet.foto_url}`;
         } else {
             foto.src = "../imagens/pet-padrao.png";

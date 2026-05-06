@@ -1,0 +1,37 @@
+.acompanhamento-container {
+    max-width: 800px;
+    margin: 180px auto 40px;
+    padding: 0 20px;
+}
+
+.perfil-pet-card,
+.acompanhamento-card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.foto-acompanhamento {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 15px 0;
+}
+
+.dados-pet {
+    margin-top: 15px;
+    font-size: 16px;
+}
+
+.acompanhamento-card h2 {
+    margin-bottom: 15px;
+}
+
+.texto-vazio {
+    color: #7a5c57;
+    font-size: 15px;
+}

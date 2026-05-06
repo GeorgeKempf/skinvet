@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Acompanhamento do Pet - SkinVet</title>
 
+    <link rel="stylesheet" href="../css/acompanhamento-pet.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/meu-pet.css">
     <link href="https://fonts.googleapis.com/css2?family=Ruda:wght@400;700&display=swap" rel="stylesheet">
@@ -23,18 +24,34 @@
     </div>
 </header>
 
-<main class="pet-container">
-    <section class="pet-card">
+<main class="acompanhamento-container">
+
+    <!-- PERFIL DO PET -->
+    <section class="perfil-pet-card">
         <h1 id="tituloAcompanhamento">Acompanhamento do pet</h1>
 
         <div class="foto-acompanhamento-container">
             <img id="fotoPet" class="foto-acompanhamento" src="../imagens/pet-padrao.png">
         </div>
 
-        <p class="descricao-pet">
-            Aqui ficarão as informações e histórico do animal.
+        <div class="dados-pet">
+            <p><strong>Espécie:</strong> <span id="especiePet"></span></p>
+            <p><strong>Raça:</strong> <span id="racaPet"></span></p>
+            <p><strong>Sexo:</strong> <span id="sexoPet"></span></p>
+            <p><strong>Idade:</strong> <span id="idadePet"></span></p>
+        </div>
+    </section>
+
+    <!-- ACOMPANHAMENTO -->
+    <section class="acompanhamento-card">
+        <h2>Acompanhamento dermatológico</h2>
+
+        <p class="texto-vazio">
+            Nenhuma atualização disponível no momento.<br>
+            As informações do tratamento serão adicionadas pela Dra. Michele.
         </p>
     </section>
+
 </main>
 
 <script src="../js/auth.js"></script>

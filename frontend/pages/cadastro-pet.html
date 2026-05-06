@@ -46,22 +46,21 @@
             <label for="raca-pet">Raça</label>
             <input type="text" id="raca-pet" placeholder="Ex: Shih-tzu, SRD, Persa">
 
-            <label for="idade-pet">Idade</label>
-            <input type="number" id="idade-pet" placeholder="Ex: 3" min="0">
-
             <label for="sexo-pet">Sexo</label>
             <select id="sexo-pet" required>
                 <option value="">Selecione</option>
                 <option value="macho">Macho</option>
                 <option value="femea">Fêmea</option>
             </select>
+            
+            <label for="idade-pet">Idade</label>
+            <input type="number" id="idade" placeholder="Ex: 3">
 
-            <label for="cor-pet">Cor da pelagem</label>
-            <input type="text" id="cor-pet" placeholder="Ex: Branco, preto e caramelo">
-
-            <label for="microchip-pet">Número do microchip</label>
-            <input type="text" id="microchip-pet" placeholder="Caso possua">
-
+            <label class="checkbox-idade">
+                <input type="checkbox" id="idadeDesconhecida">
+                Não sei a idade do pet
+            </label>
+            <br>
             <label for="foto-pet">Foto atualizada do pet</label>
             <input type="file" id="foto-pet" accept="image/*">
 

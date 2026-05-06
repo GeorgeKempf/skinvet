@@ -21,10 +21,9 @@ form.addEventListener("submit", function (e) {
     const nome = document.getElementById("nome-pet").value.trim();
     const especie = document.getElementById("especie-pet").value;
     const raca = document.getElementById("raca-pet").value.trim();
-    const idade = document.getElementById("idade-pet").value;
+    const idadeDesconhecida = document.getElementById("idadeDesconhecida").checked;
+    const idade = idadeDesconhecida ? null : document.getElementById("idade").value;
     const sexo = document.getElementById("sexo-pet").value;
-    const cor = document.getElementById("cor-pet").value.trim();
-    const microchip = document.getElementById("microchip-pet").value.trim();
     const fotoInput = document.getElementById("foto-pet");
 
     if (!nome || !especie || !sexo) {
@@ -42,8 +41,6 @@ form.addEventListener("submit", function (e) {
             raca,
             idade,
             sexo,
-            cor,
-            microchip,
             foto: fotoBase64 || null,
             ativo: true,
             motivoExclusao: null,

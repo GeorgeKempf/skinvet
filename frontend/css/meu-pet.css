@@ -352,3 +352,12 @@ body {
     font-size: 12px;
 }
 
+.checkbox-idade {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: -10px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #6b1f1f;
+}

@@ -69,3 +69,69 @@
 .botoes-agendamento button:last-child {
     background-color: #9b2f2f;
 }
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.45);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-conteudo {
+    background-color: white;
+    padding: 30px;
+    border-radius: 14px;
+    width: 360px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+
+.modal-conteudo h3 {
+    margin-top: 0;
+    color: #3a1212;
+}
+
+.modal-conteudo label {
+    display: block;
+    margin-top: 12px;
+    font-weight: 700;
+}
+
+.modal-conteudo input,
+.modal-conteudo textarea {
+    width: 100%;
+    margin-top: 6px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: 'Ruda', sans-serif;
+    box-sizing: border-box;
+}
+
+.modal-botoes {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.modal-botoes button {
+    background-color: #5a1f1f;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+#modalEditarAgendamento {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.45);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}

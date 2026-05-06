@@ -10,10 +10,19 @@ function getUsuarioLogado() {
     return usuario;
 }
 
+
 const especiePet = document.getElementById("especiePet");
 const racaPet = document.getElementById("racaPet");
 const idadePet = document.getElementById("idadePet");
 const sexoPet = document.getElementById("sexoPet");
+const modalEditar = document.getElementById("modalEditarAgendamento");
+const editarData = document.getElementById("editarData");
+const editarHorario = document.getElementById("editarHorario");
+const editarObservacao = document.getElementById("editarObservacao");
+const confirmarEdicao = document.getElementById("confirmarEdicaoAgendamento");
+const cancelarEdicao = document.getElementById("cancelarEdicaoAgendamento");
+
+let agendamentoEditandoId = null;
 
 const params = new URLSearchParams(window.location.search);
 const petId = params.get("id");
@@ -92,6 +101,7 @@ function carregarAgendamentosDoPet() {
             <h3>Agendamento solicitado</h3>
             <p><strong>Data:</strong> ${agendamento.data}</p>
             <p><strong>Horário:</strong> ${agendamento.horario}</p>
+            <p><strong>Tipo de agendamento:</strong> ${agendamento.tipoAgendamento || "Não informado"}</p>
             <p><strong>Observação:</strong> ${agendamento.observacao}</p>
             <p><strong>Status:</strong> ${agendamento.status}</p>
 
@@ -130,6 +140,7 @@ function cancelarAgendamento(id) {
     carregarAgendamentosDoPet();
 }
 
+
 function editarAgendamento(id) {
     const usuario = getUsuarioLogado();
     if (!usuario) return;
@@ -141,22 +152,31 @@ function editarAgendamento(id) {
 
     if (!agendamento) return;
 
-    const novaData = prompt("Nova data:", agendamento.data);
-    const novoHorario = prompt("Novo horário:", agendamento.horario);
-    const novaObservacao = prompt("Nova observação:", agendamento.observacao);
+    agendamentoEditandoId = id;
 
-    if (!novaData || !novoHorario || !novaObservacao) {
-        alert("Edição cancelada.");
-        return;
-    }
+    editarData.value = agendamento.data;
+    editarHorario.value = agendamento.horario;
+    editarObservacao.value = agendamento.observacao;
+
+    modalEditar.style.display = "flex";
+}
+
+confirmarEdicao.addEventListener("click", () => {
+    const usuario = getUsuarioLogado();
+    if (!usuario) return;
+
+    if (!agendamentoEditandoId) return;
+
+    const chaveAgendamentos = `agendamentos_${usuario.email}`;
+    const agendamentos = JSON.parse(localStorage.getItem(chaveAgendamentos)) || [];
 
     const agendamentosAtualizados = agendamentos.map((item) => {
-        if (item.id === id) {
+        if (item.id === agendamentoEditandoId) {
             return {
                 ...item,
-                data: novaData,
-                horario: novoHorario,
-                observacao: novaObservacao,
+                data: editarData.value,
+                horario: editarHorario.value,
+                observacao: editarObservacao.value,
                 status: "Solicitado"
             };
         }
@@ -165,8 +185,17 @@ function editarAgendamento(id) {
     });
 
     localStorage.setItem(chaveAgendamentos, JSON.stringify(agendamentosAtualizados));
+
+    modalEditar.style.display = "none";
+    agendamentoEditandoId = null;
+
     carregarAgendamentosDoPet();
-}
+});
+
+cancelarEdicao.addEventListener("click", () => {
+    modalEditar.style.display = "none";
+    agendamentoEditandoId = null;
+});
 
 carregarPet();
 carregarAgendamentosDoPet();

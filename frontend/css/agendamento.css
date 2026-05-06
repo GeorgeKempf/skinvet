@@ -111,3 +111,63 @@ body {
     background-color: #3a1212;
 }
 
+.tipo-agendamento {
+    display: flex;
+    justify-content: flex-start;
+    gap: 30px;
+    margin: 8px 0 18px;
+    font-weight: 700;
+}
+
+.tipo-agendamento label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+#modalTaxaDomicilio {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.45);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#modalTaxaDomicilio .modal-conteudo {
+    background-color: white;
+    padding: 30px;
+    border-radius: 14px;
+    width: 360px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+#modalTaxaDomicilio .modal-botoes {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+#modalTaxaDomicilio .modal-botoes button {
+    background-color: #5a1f1f;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+#modalTaxaDomicilio {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.45);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}

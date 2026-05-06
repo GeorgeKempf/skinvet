@@ -13,6 +13,10 @@ function getUsuarioLogado() {
 const form = document.getElementById("agendamentoForm");
 const listaPetsContainer = document.getElementById("listaPetsAgendamento");
 const inputPetSelecionado = document.getElementById("pet-agendamento");
+const modalTaxaDomicilio = document.getElementById("modalTaxaDomicilio");
+const confirmarDomicilio = document.getElementById("confirmarDomicilio");
+const cancelarDomicilio = document.getElementById("cancelarDomicilio");
+const radiosTipoAgendamento = document.querySelectorAll('input[name="tipo-agendamento"]');
 
 async function carregarPetsNoAgendamento() {
     const usuario = getUsuarioLogado();
@@ -67,6 +71,28 @@ async function carregarPetsNoAgendamento() {
     }
 }
 
+radiosTipoAgendamento.forEach((radio) => {
+    radio.addEventListener("change", () => {
+        if (radio.value === "A domicílio" && radio.checked) {
+            modalTaxaDomicilio.style.display = "flex";
+        }
+    });
+});
+
+confirmarDomicilio.addEventListener("click", () => {
+    modalTaxaDomicilio.style.display = "none";
+});
+
+cancelarDomicilio.addEventListener("click", () => {
+    const domicilio = document.querySelector('input[name="tipo-agendamento"][value="A domicílio"]');
+
+    if (domicilio) {
+        domicilio.checked = false;
+    }
+
+    modalTaxaDomicilio.style.display = "none";
+});
+
 form.addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -77,6 +103,12 @@ form.addEventListener("submit", function (e) {
     const data = document.getElementById("data-agendamento").value;
     const horario = document.getElementById("horario-agendamento").value;
     const observacao = document.getElementById("observacao-agendamento").value.trim();
+    const tipoAgendamento = document.querySelector('input[name="tipo-agendamento"]:checked')?.value;
+
+    if (!tipoAgendamento) {
+    alert("Selecione o tipo de atendimento.");
+    return;
+}
 
     if (!petId) {
         alert("Selecione um pet para o agendamento.");
@@ -96,6 +128,7 @@ form.addEventListener("submit", function (e) {
         petId,
         data,
         horario,
+        tipoAgendamento,
         observacao,
         status: "Solicitado"
     };

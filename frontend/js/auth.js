@@ -108,9 +108,14 @@ if (loginForm) {
             alert(dados.mensagem);
 
             if (resposta.ok) {
-                setCurrentUser(dados.usuario);
+                 setCurrentUser(dados.usuario);
+
+             if (dados.usuario.is_admin) {
+                window.location.href = 'admin.html';
+            } else {
                 window.location.href = '../index.html';
             }
+         }
         } catch (error) {
             console.error(error);
             alert('Erro de conexão com o servidor');

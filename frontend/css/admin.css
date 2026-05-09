@@ -1,0 +1,150 @@
+body {
+    margin: 0;
+    font-family: 'Ruda', sans-serif;
+    background-color: #f5f1ef;
+    color: #4b1e1e;
+}
+
+.admin-container {
+    padding-top: 220px;
+    display: flex;
+    justify-content: center;
+}
+
+.admin-home {
+    width: 1100px;
+    background-color: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.admin-home h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.admin-home p {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.cards-admin {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.admin-card {
+    width: 300px;
+    background-color: #f3ecea;
+    border-radius: 18px;
+    padding: 25px;
+    box-sizing: border-box;
+}
+
+.admin-card h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+.status-group p {
+    margin: 12px 0;
+    font-size: 18px;
+}
+
+.status-group span {
+    font-weight: bold;
+}
+
+.admin-card button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background-color: #6d1f1f;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.admin-card button:hover {
+    opacity: 0.9;
+}
+
+.menu .active {
+    font-weight: bold;
+}
+
+.admin-section {
+    display: none;
+    width: 100%;
+}
+
+.active-section {
+    display: flex;
+    justify-content: center;
+}
+
+.lista-admin {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.item-admin {
+    background-color: #f3ecea;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item-admin button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #7a1c1c;
+    color: white;
+    cursor: pointer;
+}
+
+.acoes-admin {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-confirmar {
+    background-color: #2e7d32 !important;
+}
+
+.btn-cancelar {
+    background-color: #a32121 !important;
+}
+
+.busca-usuarios {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.busca-usuarios input {
+    flex: 1;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.busca-usuarios button {
+    padding: 14px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #7a1c1c;
+    color: white;
+    cursor: pointer;
+}

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Ruda:wght@400;700&display=swap" rel="stylesheet">
+
+    <title>Painel Admin - SkinVet</title>
+</head>
+<body>
+
+<header>
+    <nav class="navbar">
+
+        <a href="../index.html">
+            <img src="../imagens/logo.png" alt="SkinVet" class="logo">
+        </a>
+
+        <ul class="menu">
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#">Atendimentos</a></li>
+            <li><a href="#">Acompanhamentos</a></li>
+            <li><a href="#">Usuários</a></li>
+        </ul>
+
+        <div id="userMenu"></div>
+
+    </nav>
+</header>
+
+<main class="admin-container">
+
+    <!-- HOME -->
+    <section id="homeSection" class="admin-section active-section">
+
+        <div class="admin-home">
+
+            <h1>Painel Administrativo</h1>
+
+            <p>
+                Gerencie usuários, acompanhamentos e atendimentos da SkinVet.
+            </p>
+
+            <div class="cards-admin">
+
+                <div class="admin-card">
+                    <h2>Atendimentos</h2>
+
+                    <div class="status-group">
+                        <p>Pendentes: <span>3</span></p>
+                        <p>Confirmados: <span>8</span></p>
+                        <p>Cancelados: <span>1</span></p>
+                    </div>
+
+                    <button onclick="mostrarSecao('atendimentosSection')">
+                        Acessar
+                    </button>
+                </div>
+
+                <div class="admin-card">
+                    <h2>Acompanhamentos</h2>
+
+                    <div class="status-group">
+                        <p>Pets em acompanhamento: <span>14</span></p>
+                    </div>
+
+                    <button onclick="mostrarSecao('acompanhamentosSection')">
+                        Acessar
+                    </button>
+                </div>
+
+                <div class="admin-card">
+                    <h2>Usuários</h2>
+
+                    <div class="status-group">
+                        <p>Total de usuários: <span>22</span></p>
+                    </div>
+
+                    <button onclick="mostrarSecao('usuariosSection')">
+                        Acessar
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ATENDIMENTOS -->
+    <section id="atendimentosSection" class="admin-section">
+
+        <div class="admin-home">
+
+            <h1>Atendimentos</h1>
+
+            <div class="lista-admin">
+
+                <div class="item-admin">
+                    <div>
+                        <strong>Jack Kempf</strong>
+                        <p>George Kempf</p>
+                        <p>10/05/2026 - 14:00</p>
+                    </div>
+
+                    <div class="acoes-admin">
+                        <button class="btn-confirmar">Aceitar</button>
+                        <button class="btn-cancelar">Recusar</button>
+                    </div>
+                </div>
+
+                <div class="item-admin">
+                    <div>
+                        <strong>Júpiter Kempf</strong>
+                        <p>George Kempf</p>
+                        <p>12/05/2026 - 16:30</p>
+                    </div>
+
+                    <div class="acoes-admin">
+                        <button class="btn-confirmar">Aceitar</button>
+                        <button class="btn-cancelar">Recusar</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ACOMPANHAMENTOS -->
+    <section id="acompanhamentosSection" class="admin-section">
+
+        <div class="admin-home">
+
+            <h1>Acompanhamentos</h1>
+
+            <div class="lista-admin">
+
+                <div class="item-admin">
+                    <div>
+                        <strong>Jack Kempf</strong>
+                        <p>Tutor: George Kempf</p>
+                    </div>
+
+                    <button>
+                        Abrir acompanhamento
+                    </button>
+                </div>
+
+                <div class="item-admin">
+                    <div>
+                        <strong>Puma Kempf</strong>
+                        <p>Tutor: George Kempf</p>
+                    </div>
+
+                    <button>
+                        Abrir acompanhamento
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- USUÁRIOS -->
+    <section id="usuariosSection" class="admin-section">
+
+        <div class="admin-home">
+
+            <h1>Usuários</h1>
+
+            <div class="busca-usuarios">
+
+                <input type="text" placeholder="Buscar por CPF, ID ou nome">
+
+                <button>Buscar</button>
+
+            </div>
+
+            <div class="lista-admin">
+
+                <div class="item-admin">
+                    <div>
+                        <strong>George Kempf</strong>
+                        <p>CPF: 000.000.000-00</p>
+                        <p>ID: 2</p>
+                    </div>
+
+                    <button>
+                        Ver perfil
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="../js/auth.js"></script>
+<script src="../js/admin.js"></script>
+
+</body>
+</html>
